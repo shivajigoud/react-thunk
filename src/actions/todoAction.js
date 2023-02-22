@@ -3,8 +3,8 @@ import { ADD_TODOS, UPDATE_TODOS, DELETE_TODOS } from './actions.js';
 export const addTodo = (payload) => async (dispatch, action) => {
   const currentTodos = await getTodos();
   const todos = JSON.parse(currentTodos);
-  await addTodos({ ...todos, payload });
-  dispatch(ADD_TODOS, payload);
+  await addTodos([...todos, payload]);
+  dispatch({ type: ADD_TODOS, payLoad: payload });
 };
 
 function getTodos() {

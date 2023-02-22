@@ -4,13 +4,18 @@ import { addTodo } from './actions/todoAction';
 import './style.css';
 
 export default function App() {
-  const users = useSelector((state) => state.todos);
+  const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
   const todoRef = useRef();
-  const [todo, setTodo] = useState('enter new todo');
+  const [todo, setTodo] = useState({
+    name: '',
+    isCompleted: false,
+    inProgress: false,
+    isDeleted: false,
+  });
   useEffect(() => {}, []);
   const handleTodoChange = (e) => {
-    setTodo(e.target.value);
+    setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
     console.log(todo);
@@ -21,7 +26,7 @@ export default function App() {
       <h1>Hello StackBlitz!</h1>
       <input
         type="text"
-        value={todo}
+        value={todo.name}
         onChange={handleTodoChange}
         ref={todoRef}
       />
@@ -29,9 +34,9 @@ export default function App() {
         Add Todo
       </button>
       <ul>
-        {users &&
-          users.map((data, i) => {
-            return <li key={`user${i}`}>{data.email}</li>;
+        {todos &&
+          todos.map((todo, i) => {
+            return <li key={`user${i}`}>{todo.name}</li>;
           })}
       </ul>
     </div>
