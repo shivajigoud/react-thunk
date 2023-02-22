@@ -83,20 +83,26 @@ export default function App() {
         {todos &&
           todos.map((todo, i) => {
             return (
-              <li
-                key={`user${i}`}
-                className={`row ${todo.inProgress ? 'row-active' : ''}`}
-              >
-                <input
-                  type="checkbox"
-                  onChange={(e) => onTodoProgress(e, todo.id)}
-                  checked={todo.inProgress}
-                />
-                <span>{todo.name}</span>
-                <button onClick={() => onEdit(todo.id)}>Edit</button>
-                <button onClick={() => onDelete(todo.id)}>Delete</button>
-                <button onClick={() => onComplete(todo.id)}>Complete</button>
-              </li>
+              <>
+                {!todo.isDeleted && !todo.isCompleted && (
+                  <li
+                    key={`todo${todo.id}`}
+                    className={`row ${todo.inProgress ? 'row-active' : ''}`}
+                  >
+                    <input
+                      type="checkbox"
+                      onChange={(e) => onTodoProgress(e, todo.id)}
+                      checked={todo.inProgress}
+                    />
+                    <span>{todo.name}</span>
+                    <button onClick={() => onEdit(todo.id)}>Edit</button>
+                    <button onClick={() => onDelete(todo.id)}>Delete</button>
+                    <button onClick={() => onComplete(todo.id)}>
+                      Complete
+                    </button>
+                  </li>
+                )}
+              </>
             );
           })}
       </ul>
