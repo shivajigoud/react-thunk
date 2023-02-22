@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useId } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo } from './actions/todoAction';
+import { addTodo, updateTodo } from './actions/todoAction';
 import './style.css';
 
 export default function App() {
@@ -19,11 +19,15 @@ export default function App() {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
+    setTodo({ ...todo, id: useId() });
     console.log(todo);
     dispatch(addTodo(todo));
   };
-  const onTodoProgress = (i) => {
-    console.log(i);
+  const onTodoProgress = (id) => {
+    const payLoad = todos.find((v, i, a) => {
+      return v.id == id;
+    });
+    dispatch(updateTodo(payLoad));
   };
   return (
     <div>
@@ -42,7 +46,10 @@ export default function App() {
           todos.map((todo, i) => {
             return (
               <li key={`user${i}`} className="row">
-                <input type="checkbox" onChange={() => onTodoProgress(i)} />
+                <input
+                  type="checkbox"
+                  onChange={() => onTodoProgress(todo.id)}
+                />
                 <span>{todo.name}</span>
                 <button>Edit</button>
                 <button>Delete</button>

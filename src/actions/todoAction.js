@@ -13,6 +13,7 @@ export const updateTodo = (payload) => async (dispatch, action) => {
     if (v.id == payload.id) {
       v.inProgress = payload.inProgress;
     }
+    return v;
   });
   await updateTodos([...updatedTodos]);
   dispatch({ type: UPDATE_TODOS, payLoad: payload });
