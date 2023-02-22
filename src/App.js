@@ -19,7 +19,7 @@ export default function App() {
     isCompleted: false,
     inProgress: false,
     isDeleted: false,
-    id: 0,
+    id: utils.uid(),
   });
   useEffect(() => {
     dispatch(fetchTodos());
