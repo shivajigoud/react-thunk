@@ -86,7 +86,7 @@ export default function App() {
               <>
                 {!todo.isDeleted && !todo.isCompleted && (
                   <li
-                    key={`todo${todo.id}`}
+                    key={todo.id}
                     className={`row ${todo.inProgress ? 'row-active' : ''}`}
                   >
                     <input
