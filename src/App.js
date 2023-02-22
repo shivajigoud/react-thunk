@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useId } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, updateTodo } from './actions/todoAction';
+import { addTodo, updateTodo, fetchTodos } from './actions/todoAction';
 import './style.css';
 
 export default function App() {
@@ -12,14 +12,16 @@ export default function App() {
     isCompleted: false,
     inProgress: false,
     isDeleted: false,
-    id: useId(),
+    id: 0,
   });
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, []);
   const handleTodoChange = (e) => {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
-    setTodo({ ...todo, id: useId() });
+    setTodo({ ...todo, id: 1 });
     console.log(todo);
     dispatch(addTodo(todo));
   };

@@ -1,10 +1,20 @@
-import { ADD_TODOS, UPDATE_TODOS, DELETE_TODOS } from './actions.js';
+import {
+  ADD_TODOS,
+  UPDATE_TODOS,
+  DELETE_TODOS,
+  FETCH_TODOS,
+} from './actions.js';
 
 export const addTodo = (payload) => async (dispatch, action) => {
   const currentTodos = await getTodos();
   const todos = JSON.parse(currentTodos);
   await addTodos([...todos, payload]);
   dispatch({ type: ADD_TODOS, payLoad: payload });
+};
+export const fetchTodos = () => async (dispatch, action) => {
+  const currentTodos = await getTodos();
+  const todos = JSON.parse(currentTodos);
+  dispatch({ type: FETCH_TODOS, payLoad: todos });
 };
 export const updateTodo = (payload) => async (dispatch, action) => {
   const currentTodos = await getTodos();
