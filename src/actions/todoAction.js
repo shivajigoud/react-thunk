@@ -21,7 +21,7 @@ export const updateTodo = (payload) => async (dispatch, action) => {
   const todos = JSON.parse(currentTodos);
   const updatedTodos = todos.map((v, i, a) => {
     if (v.id == payload.id) {
-      v.inProgress = payload.inProgress;
+      v = payload;
     }
     return v;
   });

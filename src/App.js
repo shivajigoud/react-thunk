@@ -40,6 +40,7 @@ export default function App() {
   };
   const onEdit = (id) => {
     setEdit(true);
+    todoRef.current.focus();
     const payLoad = findTodo(id);
     setTodo({ ...payLoad });
   };
@@ -47,8 +48,13 @@ export default function App() {
     dispatch(updateTodo(todo));
     setEdit(false);
   };
-  const onDelete = () => {
-    setEdit(true);
+  const onDelete = (id) => {
+    const payLoad = findTodo(id);
+    dispatch(updateTodo({ ...payLoad, isDeleted: true }));
+  };
+  const onComplete = (id) => {
+    const payLoad = findTodo(id);
+    dispatch(updateTodo({ ...payLoad, isCompleted: true }));
   };
   const findTodo = (id) => {
     return todos.find((v, i, a) => {
@@ -88,7 +94,8 @@ export default function App() {
                 />
                 <span>{todo.name}</span>
                 <button onClick={() => onEdit(todo.id)}>Edit</button>
-                <button onClick={onDelete}>Delete</button>
+                <button onClick={() => onDelete(todo.id)}>Delete</button>
+                <button onClick={() => onComplete(todo.id)}>Complete</button>
               </li>
             );
           })}
