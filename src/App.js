@@ -36,7 +36,12 @@ export default function App() {
       <ul>
         {todos &&
           todos.map((todo, i) => {
-            return <li key={`user${i}`}>{todo.name}</li>;
+            return (
+              <li key={`user${i}`}>
+                <input type="checkbox" />
+                {todo.name}
+              </li>
+            );
           })}
       </ul>
     </div>
