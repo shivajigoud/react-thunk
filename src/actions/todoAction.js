@@ -2,10 +2,15 @@ import { ADD_TODOS, UPDATE_TODOS, DELETE_TODOS } from './actions.js';
 
 export const addTodo = (payload) => async (dispatch, action) => {
   const currentTodos = await getTodos();
-  const newTodos = await currentTodos.then((todso) => ({
-    ...currentTodos,
-    payload,
-  }));
+  const newTodos = await currentTodos.then(
+    (todso) => ({
+      ...currentTodos,
+      payload,
+    }),
+    (error) => {
+      console.log(error);
+    }
+  );
   await addTodos(newTodos);
   dispatch(ADD_TODOS, payload);
 };
