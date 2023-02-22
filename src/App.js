@@ -21,6 +21,7 @@ export default function App() {
     isDeleted: false,
     id: utils.uid(),
   });
+  const [isEdit, setEdit] = useState(false);
   useEffect(() => {
     dispatch(fetchTodos());
   }, []);
@@ -34,10 +35,25 @@ export default function App() {
   };
   const onTodoProgress = (e, id) => {
     console.log(id);
-    const payLoad = todos.find((v, i, a) => {
+    const payLoad = findTodo(id);
+    dispatch(updateTodo({ ...payLoad, inProgress: e.target.checked }));
+  };
+  const onEdit = (id) => {
+    setEdit(true);
+    const payLoad = findTodo(id);
+    setTodo({ ...payLoad });
+  };
+  const saveTodo = () => {
+    dispatch(updateTodo(todo));
+    setEdit(false);
+  };
+  const onDelete = () => {
+    setEdit(true);
+  };
+  const findTodo = (id) => {
+    return todos.find((v, i, a) => {
       return v.id == id;
     });
-    dispatch(updateTodo({ ...payLoad, inProgress: e.target.checked }));
   };
   return (
     <div>
@@ -48,9 +64,15 @@ export default function App() {
         onChange={handleTodoChange}
         ref={todoRef}
       />
-      <button type="submit" onClick={onAddTodo}>
-        Add Todo
-      </button>
+      {isEdit ? (
+        <button type="submit" onClick={saveTodo}>
+          Save Todo
+        </button>
+      ) : (
+        <button type="submit" onClick={onAddTodo}>
+          Add Todo
+        </button>
+      )}
       <ul className="grid">
         {todos &&
           todos.map((todo, i) => {
@@ -65,8 +87,8 @@ export default function App() {
                   checked={todo.inProgress}
                 />
                 <span>{todo.name}</span>
-                <button>Edit</button>
-                <button>Delete</button>
+                <button onClick={() => onEdit(todo.id)}>Edit</button>
+                <button onClick={onDelete}>Delete</button>
               </li>
             );
           })}
