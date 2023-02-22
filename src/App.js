@@ -32,11 +32,12 @@ export default function App() {
     console.log(todo);
     dispatch(addTodo(todo));
   };
-  const onTodoProgress = (id) => {
+  const onTodoProgress = (e, id) => {
+    console.log(id);
     const payLoad = todos.find((v, i, a) => {
       return v.id == id;
     });
-    dispatch(updateTodo(payLoad));
+    dispatch(updateTodo({ ...payLoad, inProgress: e.target.checked }));
   };
   return (
     <div>
@@ -54,10 +55,14 @@ export default function App() {
         {todos &&
           todos.map((todo, i) => {
             return (
-              <li key={`user${i}`} className="row">
+              <li
+                key={`user${i}`}
+                className={`row ${todo.inProgress ? 'row-active' : ''}`}
+              >
                 <input
                   type="checkbox"
-                  onChange={() => onTodoProgress(todo.id)}
+                  onChange={(e) => onTodoProgress(e, todo.id)}
+                  checked={todo.inProgress}
                 />
                 <span>{todo.name}</span>
                 <button>Edit</button>
