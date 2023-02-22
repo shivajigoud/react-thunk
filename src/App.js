@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef, useId } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, updateTodo, fetchTodos } from './actions/todoAction';
+import {
+  addTodo,
+  updateTodo,
+  fetchTodos,
+  getTodos,
+} from './actions/todoAction';
 import utils from './utils';
 import './style.css';
 
 export default function App() {
   // console.log(utils.getNewID(2)());
   const todos = useSelector((state) => state.todos);
-  const [lastId, setId] = useState(1);
   const dispatch = useDispatch();
   const todoRef = useRef();
   const [todo, setTodo] = useState({
@@ -15,16 +19,26 @@ export default function App() {
     isCompleted: false,
     inProgress: false,
     isDeleted: false,
-    id: lastId,
+    id: 1,
   });
   useEffect(() => {
-    dispatch(fetchTodos());
+    //dispatch(fetchTodos());
+    async function getAllTodos() {
+      let lastId = 1;
+      const currentTodos = await getTodos();
+      const todos = JSON.parse(currentTodos);
+      if (todos.length > 0) {
+        lastId = todos[todos.length - 1]['id'];
+      }
+      utils.getNewID(lastId)();
+    }
+    getAllTodos();
   }, []);
   const handleTodoChange = (e) => {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
-    setTodo({ ...todo, id: utils.getNewID(lastId)() });
+    setTodo({ ...todo, id: utils.getNewID()() });
     console.log(todo);
     dispatch(addTodo(todo));
   };

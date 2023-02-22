@@ -30,7 +30,7 @@ export const updateTodo = (payload) => async (dispatch, action) => {
 };
 
 /*local storage promises*/
-function getTodos() {
+export function getTodos() {
   return new Promise((resolve, reject) => {
     const todos = localStorage.getItem('Todos');
     if (todos) {
