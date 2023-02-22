@@ -1,22 +1,12 @@
 import React from 'react';
 
 const utils = () => {
-  let newID;
-  function* createId(starter) {
-    let i = starter || 1;
-    while (true) {
-      yield ++i;
-    }
-  }
-  newID = createId();
-  const getNewID = (starter) => {
-    if (starter) {
-      newID = createId(starter);
-    }
-    return () => newID.next().value;
+  const uid = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
   };
   return {
-    getNewID,
+    uid,
   };
 };
+
 export default utils();

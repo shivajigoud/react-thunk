@@ -19,26 +19,16 @@ export default function App() {
     isCompleted: false,
     inProgress: false,
     isDeleted: false,
-    id: 1,
+    id: 0,
   });
   useEffect(() => {
-    //dispatch(fetchTodos());
-    async function getAllTodos() {
-      let lastId = 1;
-      const currentTodos = await getTodos();
-      const todos = JSON.parse(currentTodos);
-      if (todos.length > 0) {
-        lastId = todos[todos.length - 1]['id'];
-      }
-      utils.getNewID(lastId)();
-    }
-    getAllTodos();
+    dispatch(fetchTodos());
   }, []);
   const handleTodoChange = (e) => {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
-    setTodo({ ...todo, id: utils.getNewID()() });
+    setTodo({ ...todo, id: utils.uid() });
     console.log(todo);
     dispatch(addTodo(todo));
   };
