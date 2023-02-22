@@ -6,7 +6,17 @@ export const addTodo = (payload) => async (dispatch, action) => {
   await addTodos([...todos, payload]);
   dispatch({ type: ADD_TODOS, payLoad: payload });
 };
-
+export const updateTodo = (payload) => async (dispatch, action) => {
+  const currentTodos = await getTodos();
+  const todos = JSON.parse(currentTodos);
+  const updatedTodos = todos.map((v, i, a) => {
+    if (v.id == payload.id) {
+      v.inProgress = payload.inProgress;
+    }
+  });
+  await updateTodos([...updatedTodos]);
+  dispatch({ type: UPDATE_TODOS, payLoad: payload });
+};
 function getTodos() {
   return new Promise((resolve, reject) => {
     const todos = localStorage.getItem('Todos');
@@ -28,12 +38,14 @@ function addTodos(todos) {
     }
   });
 }
-function updateTodos(id) {
+function updateTodos(todos) {
   return new Promise((resolve, reject) => {
-    const todos = localStorage.getItem('Todos');
-    if (todos && todos.json().length > 0) {
-      resolve(todos);
-    } else reject('No todos stored yet');
+    try {
+      localStorage.setItem('Todos', JSON.stringify(todos));
+      resolve('todos updated to the local storage');
+    } catch {
+      reject('Problem in updating todos');
+    }
   });
 }
 function deleteTodos(id) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useId } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTodo } from './actions/todoAction';
 import './style.css';
@@ -12,6 +12,7 @@ export default function App() {
     isCompleted: false,
     inProgress: false,
     isDeleted: false,
+    id: useId(),
   });
   useEffect(() => {}, []);
   const handleTodoChange = (e) => {
@@ -20,6 +21,9 @@ export default function App() {
   const onAddTodo = () => {
     console.log(todo);
     dispatch(addTodo(todo));
+  };
+  const onTodoProgress = (i) => {
+    console.log(i);
   };
   return (
     <div>
@@ -33,13 +37,15 @@ export default function App() {
       <button type="submit" onClick={onAddTodo}>
         Add Todo
       </button>
-      <ul>
+      <ul className="grid">
         {todos &&
           todos.map((todo, i) => {
             return (
-              <li key={`user${i}`}>
-                <input type="checkbox" />
-                {todo.name}
+              <li key={`user${i}`} className="row">
+                <input type="checkbox" onChange={() => onTodoProgress(i)} />
+                <span>{todo.name}</span>
+                <button>Edit</button>
+                <button>Delete</button>
               </li>
             );
           })}
