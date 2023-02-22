@@ -24,7 +24,8 @@ export default function App() {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
-    setId(todos[todos.length - 1]['id']);
+    if (todos.length > 0) setId(todos[todos.length - 1]['id']);
+    else setId(1);
     setTodo({ ...todo, id: utils.getNewID(lastId)() });
     console.log(todo);
     dispatch(addTodo(todo));
