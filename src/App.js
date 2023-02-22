@@ -4,24 +4,10 @@ import { userAPI } from './actions/usersAction';
 import './style.css';
 
 export default function App() {
-  const users = useSelector((state) => state.users);
+  const users = useSelector((state) => state.todos);
   const dispatch = useDispatch();
   useEffect(() => {
-    //IIFE used for async it is similar as thunk
-    // (async () => {
-    //   const usersApi = await fetch('https://gorest.co.in/public/v2/users');
-    //   let users = await usersApi.json();
-    //   console.log(users);
-    //   dispatch({ type: FETCH_USERS, payLoad: users });
-    // })();
-
-    // without async it fails as users return promise which is not resolved or rejected yet
-    // const usersApi = fetch('https://gorest.co.in/public/v2/users');
-    // let users = usersApi.then((response) => response.json());
-    // dispatch({ type: FETCH_USERS, payLoad: users });
-
-    //with thunk
-    dispatch(userAPI(users));
+    
   }, []);
   return (
     <div>
