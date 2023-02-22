@@ -5,7 +5,7 @@ import utils from './utils';
 import './style.css';
 
 export default function App() {
-  console.log(utils.getNewID(2)());
+  // console.log(utils.getNewID(2)());
   const todos = useSelector((state) => state.todos);
   const [lastId, setId] = useState(1);
   const dispatch = useDispatch();
@@ -24,8 +24,6 @@ export default function App() {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
-    if (todos.length > 0) setId(todos[todos.length - 1]['id']);
-    else setId(1);
     setTodo({ ...todo, id: utils.getNewID(lastId)() });
     console.log(todo);
     dispatch(addTodo(todo));
