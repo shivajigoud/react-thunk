@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef, useId } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTodo, updateTodo, fetchTodos } from './actions/todoAction';
+import utils from './utils';
 import './style.css';
 
 export default function App() {
+  console.log(utils.getNewID(2)());
   const todos = useSelector((state) => state.todos);
+  const [lastId, setId] = useState(1);
   const dispatch = useDispatch();
   const todoRef = useRef();
   const [todo, setTodo] = useState({
@@ -12,7 +15,7 @@ export default function App() {
     isCompleted: false,
     inProgress: false,
     isDeleted: false,
-    id: 0,
+    id: lastId,
   });
   useEffect(() => {
     dispatch(fetchTodos());
@@ -21,7 +24,8 @@ export default function App() {
     setTodo({ ...todo, name: e.target.value });
   };
   const onAddTodo = () => {
-    setTodo({ ...todo, id: 1 });
+    setId(todos[todos.length - 1]['id']);
+    setTodo({ ...todo, id: utils.getNewID(lastId)() });
     console.log(todo);
     dispatch(addTodo(todo));
   };

@@ -28,6 +28,8 @@ export const updateTodo = (payload) => async (dispatch, action) => {
   await updateTodos([...updatedTodos]);
   dispatch({ type: UPDATE_TODOS, payLoad: payload });
 };
+
+/*local storage promises*/
 function getTodos() {
   return new Promise((resolve, reject) => {
     const todos = localStorage.getItem('Todos');
