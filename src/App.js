@@ -47,6 +47,7 @@ export default function App() {
   const saveTodo = () => {
     dispatch(updateTodo(todo));
     setEdit(false);
+    setTodo({ ...todo, name: '' });
   };
   const onDelete = (id) => {
     const payLoad = findTodo(id);
